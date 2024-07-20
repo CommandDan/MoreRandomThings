@@ -1,0 +1,8 @@
+name: MoreRandomThings
+version: '0.1-SNAPSHOT'
+main: dk.marcusrokatis.moreRandomThings.MoreRandomThings
+api-version: '1.21'
+prefix: MRT
+authors: [ funnyboy_roks, MarcusRokatis ]
+description: A collection of random things that add interesting aspects to the game.
+website: https://modrinth.com/plugin/morerandomthings
