@@ -1,5 +1,5 @@
 name: MoreRandomThings
-version: '0.1-SNAPSHOT'
+version: '${version}'
 main: dk.marcusrokatis.moreRandomThings.MoreRandomThings
 api-version: '1.21'
 prefix: MRT
