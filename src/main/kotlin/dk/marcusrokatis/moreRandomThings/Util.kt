@@ -80,11 +80,11 @@ class Util {
         entity.world.getBlockAt(entity.location).type = entity.itemStack.type
     }
 
-    fun String.isTypeOf(type: String, ignoreCase: Boolean = true): Boolean = this.endsWith("_$type", ignoreCase)
+    fun String.isTypeOf(type: String, ignoreCase: Boolean = true): Boolean = endsWith("_$type", ignoreCase)
 
-    fun Material.isTypeOf(type: String, ignoreCase: Boolean = true): Boolean = this.name.isTypeOf(type, ignoreCase)
+    fun Material.isTypeOf(type: String, ignoreCase: Boolean = true): Boolean = name.isTypeOf(type, ignoreCase)
 
-    fun Material.isSapling(): Boolean = this.isTypeOf("SAPLING")
+    fun Material.isSapling(): Boolean = isTypeOf("SAPLING")
 
     fun isOnSaplingBlock(entity: Entity): Boolean {
         val blockUnder: Location = entity.location.clone().add(0.0, -1.0, 0.0)

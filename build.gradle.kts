@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "dk.marcusrokatis"
-version = "0.2-SNAPSHOT"
+version = "0.3-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -19,6 +19,8 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    implementation("com.tchristofferson:ConfigUpdater:2.1-SNAPSHOT")
 }
 
 val targetJavaVersion = 21
