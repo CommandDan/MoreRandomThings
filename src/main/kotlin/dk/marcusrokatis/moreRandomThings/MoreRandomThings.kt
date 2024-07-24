@@ -16,9 +16,17 @@ class MoreRandomThings : JavaPlugin() {
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
+
+        dataHandler = DataHandler()
     }
 
     override fun onDisable() {
-        // Plugin shutdown logic
+        try {
+            dataHandler.saveData()
+        } catch (e: IOException) {
+            throw RuntimeException(e)
+        }
     }
+
+    fun getDataHandler(): DataHandler = INSTANCE.dataHandler
 }
