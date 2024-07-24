@@ -125,8 +125,9 @@ class Util {
             MoreRandomThings().INSTANCE
                 .pluginMeta
                 .version
-                .replace("\\.|-SNAPSHOT|v", "")
+                .replace(Regex("\\.|-SNAPSHOT|v"), "")
         )
+
 
         return CompletableFuture.supplyAsync {
 
@@ -143,7 +144,7 @@ class Util {
                         .asJsonObject
                         .get("version_number")
                         .asString
-                        .replace("\\.|-SNAPSHOT|v", "")
+                        .replace(Regex("\\.|-SNAPSHOT|v"), "")
                 )
                 MoreRandomThings().INSTANCE.logger.info("Latest Version: $latestVersion")
 
