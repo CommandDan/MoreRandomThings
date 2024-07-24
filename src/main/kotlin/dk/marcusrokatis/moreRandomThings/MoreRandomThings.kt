@@ -27,6 +27,4 @@ class MoreRandomThings : JavaPlugin() {
             throw RuntimeException(e)
         }
     }
-
-    fun getDataHandler(): DataHandler = INSTANCE.dataHandler
 }
