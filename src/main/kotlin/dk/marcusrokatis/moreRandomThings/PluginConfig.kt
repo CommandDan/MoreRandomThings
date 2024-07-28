@@ -30,7 +30,7 @@ class PluginConfig(plugin: MoreRandomThings) {
         plugin.saveDefaultConfig()
         update()
 
-        val config: FileConfiguration = plugin.getConfig()
+        val config: FileConfiguration = plugin.config
 
         vacuumHoppers = config.getBoolean("vacuum-hoppers")
         vacuumRadius = config.getInt("vacuum-radius", 5)
@@ -51,5 +51,5 @@ class PluginConfig(plugin: MoreRandomThings) {
         elevators = config.getBoolean("elevators")
     }
 
-    fun update() = ConfigUpdater.update(MoreRandomThings().INSTANCE, "config.yml", configFile)
+    fun update() = ConfigUpdater.update(MoreRandomThings.INSTANCE, "config.yml", configFile)
 }
