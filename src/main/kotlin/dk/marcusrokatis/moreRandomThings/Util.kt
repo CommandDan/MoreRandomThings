@@ -122,25 +122,25 @@ class Util {
         }
 
         @JvmStatic
-        fun String.endsWithTypeOf(type: String, ignoreCase: Boolean = true, allowPlainForm: Boolean = true): Boolean = endsWith(if (allowPlainForm) type else "_$type", ignoreCase)
+        fun String.endsWithTypeOf(type: String, allowPlainForm: Boolean = false, ignoreCase: Boolean = true): Boolean = endsWith(if (allowPlainForm) type else "_$type", ignoreCase)
 
         @JvmStatic
-        fun Material.endsWithTypeOf(type: String, ignoreCase: Boolean = true, allowPlainForm: Boolean = true): Boolean = name.endsWithTypeOf(type, ignoreCase, allowPlainForm)
+        fun Material.endsWithTypeOf(type: String, allowPlainForm: Boolean = false, ignoreCase: Boolean = true): Boolean = name.endsWithTypeOf(type, allowPlainForm, ignoreCase)
 
         @JvmStatic
-        fun String.startsWithTypeOf(type: String, ignoreCase: Boolean = true, allowPlainForm: Boolean = true): Boolean = startsWith(if (allowPlainForm) type else "_$type", ignoreCase)
+        fun String.startsWithTypeOf(type: String, allowPlainForm: Boolean = false, ignoreCase: Boolean = true): Boolean = startsWith(if (allowPlainForm) type else "${type}_", ignoreCase)
 
         @JvmStatic
-        fun Material.startsWithTypeOf(type: String, ignoreCase: Boolean = true, allowPlainForm: Boolean = true): Boolean = name.startsWithTypeOf(type, ignoreCase, allowPlainForm)
+        fun Material.startsWithTypeOf(type: String, allowPlainForm: Boolean = false, ignoreCase: Boolean = true): Boolean = name.startsWithTypeOf(type, allowPlainForm, ignoreCase)
 
         @JvmStatic
-        fun String.containsTypeOf(type: String, ignoreCase: Boolean = true, allowPlainForm: Boolean = true): Boolean = contains(if (allowPlainForm) type else "_$type", ignoreCase)
+        fun String.containsTypeOf(type: String, allowPlainForm: Boolean = false, ignoreCase: Boolean = true): Boolean = contains(if (allowPlainForm) type else "_${type}_", ignoreCase)
 
         @JvmStatic
-        fun Material.containsTypeOf(type: String, ignoreCase: Boolean = true, allowPlainForm: Boolean = true): Boolean = name.containsTypeOf(type, ignoreCase, allowPlainForm)
+        fun Material.containsTypeOf(type: String, allowPlainForm: Boolean = false, ignoreCase: Boolean = true): Boolean = name.containsTypeOf(type, allowPlainForm, ignoreCase)
 
         @JvmStatic
-        fun Material.isSapling(): Boolean = endsWithTypeOf("SAPLING") || this == Material.MANGROVE_PROPAGULE
+        val Material.isSapling: Boolean get() = endsWithTypeOf("SAPLING") || this == Material.MANGROVE_PROPAGULE
 
         @JvmStatic
         fun isOnSaplingBlock(entity: Entity): Boolean {

@@ -3,7 +3,10 @@ package dk.marcusrokatis.moreRandomThings
 import dk.marcusrokatis.moreRandomThings.events.DispenserEvents
 import dk.marcusrokatis.moreRandomThings.events.GeneralEvents
 import dk.marcusrokatis.moreRandomThings.events.PlayerEvents
+import org.bukkit.Bukkit
+import org.bukkit.entity.Item
 import org.bukkit.event.Listener
+import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.IOException
 import java.util.concurrent.ExecutionException
@@ -38,6 +41,30 @@ class MoreRandomThings : JavaPlugin() {
 
         dataHandler = DataHandler()
         registerEvents()
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(
+            this,
+            {
+                GeneralEvents.TO_BE_PLANTED.forEach { (uuid, la) ->
+                    val entity: Item? = Bukkit.getEntity(uuid) as Item?
+                    if (la.sum() <= 0) {
+                        if (entity != null) {
+                            if (Util.isOnSaplingBlock(entity)) {
+                                Util.placeBlock(entity)
+                                val stack: ItemStack = entity.itemStack
+                                stack.amount -= 1
+                            }
+                        }
+                        GeneralEvents.TO_BE_PLANTED.remove(uuid)
+                    } else {
+                        if (entity == null || !Util.isOnSaplingBlock(entity)) GeneralEvents.TO_BE_PLANTED.remove(uuid)
+                        la.add(-10)
+                    }
+                }
+            },
+            0,
+            10
+        )
     }
 
     override fun onDisable() {
