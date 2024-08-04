@@ -4,10 +4,14 @@ import dk.marcusrokatis.moreRandomThings.events.DispenserEvents
 import dk.marcusrokatis.moreRandomThings.events.GeneralEvents
 import dk.marcusrokatis.moreRandomThings.events.PlayerEvents
 import org.bukkit.Bukkit
+import org.bukkit.Chunk
+import org.bukkit.Particle
+import org.bukkit.entity.Entity
 import org.bukkit.entity.Item
 import org.bukkit.event.Listener
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.util.Vector
 import java.io.IOException
 import java.util.concurrent.ExecutionException
 
@@ -41,6 +45,47 @@ class MoreRandomThings : JavaPlugin() {
 
         dataHandler = DataHandler()
         registerEvents()
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(
+            this,
+            {
+                this.dataHandler.data.vacuumHoppers.forEach { h ->
+                    val entity: Entity = Bukkit.getEntity(h) ?: return@forEach
+
+                    entity.world.spawnParticle(
+                        Particle.PORTAL,
+                        entity.location,
+                        50,
+                        .25,
+                        .25,
+                        .25,
+                        .0
+                    )
+
+                    val radius: Int = configuration.vacuumRadius
+
+                    val entities: MutableList<Entity>
+
+                    if (configuration.radiusIsChunks) {
+                        entities = ArrayList()
+                        val centre: Chunk = entity.chunk
+                        for (z: Int in -radius ..radius) {
+                            for (x: Int in -radius .. radius) {
+                                entities.addAll(centre.world.getChunkAt(centre.x + x, centre.z + z).entities.toList())
+                            }
+                        }
+                    } else {
+                        entities = entity.getNearbyEntities(radius.toDouble(), radius.toDouble(), radius.toDouble())
+                    }
+                    entities.stream().filter { e -> e is Item }.forEach { i ->
+                        i.velocity = Vector(.0, .0, .0)
+                        i.teleport(entity)
+                    }
+                }
+            },
+            0,
+            20
+        )
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(
             this,

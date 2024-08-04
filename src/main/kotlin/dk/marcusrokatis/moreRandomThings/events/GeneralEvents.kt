@@ -63,6 +63,13 @@ class GeneralEvents : Listener {
     }
 
     @EventHandler
+    fun onEntityDeath(event: EntityDeathEvent) {
+        if (!MoreRandomThings.configuration.vacuumHoppers) return
+        // Remove vacuum hopper upon death
+        MoreRandomThings.getDataHandler().data.vacuumHoppers.remove(event.entity.uniqueId)
+    }
+
+    @EventHandler
     fun onBlockFromTo(event: BlockFromToEvent) {
         if (!MoreRandomThings.configuration.renewableBlackstone) return
         if (event.block.type == Material.LAVA) { // Renewable Blackstone

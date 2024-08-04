@@ -4,5 +4,5 @@ import java.util.*
 
 class PluginData {
 
-    val vacuumHoppers: Set<UUID> = hashSetOf()
+    val vacuumHoppers: MutableSet<UUID> = hashSetOf()
 }
