@@ -4,8 +4,12 @@ import dk.marcusrokatis.moreRandomThings.MoreRandomThings
 import dk.marcusrokatis.moreRandomThings.Util
 import dk.marcusrokatis.moreRandomThings.Util.Companion.isSapling
 import dk.marcusrokatis.moreRandomThings.Util.Companion.startsWithTypeOf
+import net.kyori.adventure.key.Key
+import net.kyori.adventure.sound.Sound
 import org.bukkit.Bukkit
+import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.Particle
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
 import org.bukkit.block.PistonMoveReaction
@@ -16,6 +20,7 @@ import org.bukkit.entity.Item
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockFormEvent
+import org.bukkit.event.block.BlockFromToEvent
 import org.bukkit.event.block.BlockPistonExtendEvent
 import org.bukkit.event.entity.*
 import org.bukkit.event.inventory.InventoryPickupItemEvent
@@ -58,6 +63,52 @@ class GeneralEvents : Listener {
     }
 
     @EventHandler
+    fun onBlockFromTo(event: BlockFromToEvent) {
+        if (!MoreRandomThings.configuration.renewableBlackstone) return
+        if (event.block.type == Material.LAVA) { // Renewable Blackstone
+            var hasBlueIce = false
+            val toBlock: Block = event.toBlock
+
+            // Check that an adjacent face has blue ice
+            for (face: BlockFace in Util.ADJACENT_FACES) {
+                if (toBlock.getRelative(face).type == Material.BLUE_ICE) {
+                    hasBlueIce = true
+                    break
+                }
+            }
+            if (!hasBlueIce) return
+
+            if (toBlock.getRelative(BlockFace.DOWN).type != Material.SOUL_SAND) return
+
+            event.isCancelled = true
+
+            // Set the block
+            toBlock.world.getBlockAt(toBlock.location).type = Material.BLACKSTONE
+
+            // Give the block particle and sound -- similar to cobblestone/stone/deepslate
+            val loc: Location = toBlock.location.toCenterLocation()
+            event.block.world.spawnParticle(
+                Particle.LARGE_SMOKE,
+                loc,
+                2,
+                .25,
+                .5,
+                .25,
+                .0
+            )
+            toBlock.world.playSound(
+                Sound.sound(
+                    Key.key("block.lava.extinguish"),
+                    Sound.Source.BLOCK,
+                    5F,
+                    2F
+                ),
+                loc.x, loc.y, loc.z
+            )
+        }
+    }
+
+    @EventHandler
     fun onBlockForm(event: BlockFormEvent) {
         if (event.newState.type == Material.STONE
             && event.block.getRelative(BlockFace.DOWN).type == Material.ANDESITE
@@ -79,7 +130,7 @@ class GeneralEvents : Listener {
     }
 
     @EventHandler
-    fun onPistonPush(event: BlockPistonExtendEvent) { // TODO: Implement retraction
+    fun onPistonPush(event: BlockPistonExtendEvent) {
         if (event.isCancelled) return
 
         if (!MoreRandomThings.configuration.movableAmethyst) return
@@ -105,7 +156,7 @@ class GeneralEvents : Listener {
             if (!blocksSet.contains(dest) && dest.pistonMoveReaction != PistonMoveReaction.BREAK && !dest.type.isAir) return
         }
 
-        // Move the amethyst - FIXME: Breaks when multiple in row
+        // Move the amethyst
         val blocks: List<Pair<Material, Block>> = event.blocks.stream().map { b: Block -> Pair(b.type, b) }.toList()
         Bukkit.getScheduler().runTaskLater(MoreRandomThings.INSTANCE, Runnable {
             for ((key, value) in blocks) {
