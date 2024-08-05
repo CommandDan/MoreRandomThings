@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "dk.marcusrokatis"
-version = "0.9-SNAPSHOT"
+version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
