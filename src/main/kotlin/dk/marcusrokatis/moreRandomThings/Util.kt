@@ -84,7 +84,7 @@ class Util {
         @JvmStatic
         fun newMagicMirror(): ItemStack {
             val stack = ItemStack(Material.ENDER_PEARL)
-            var meta: ItemMeta = stack.itemMeta
+            val meta: ItemMeta = stack.itemMeta
 
             meta.displayName(MiniMessage.miniMessage().deserialize("<bold><rainbow>Magic Mirror</rainbow></bold>"))
             meta.lore(listOf(
@@ -150,6 +150,8 @@ class Util {
 
         @JvmStatic
         fun isLatestVersion(): CompletableFuture<Boolean> {
+
+            if (MoreRandomThings.IS_DEVBUILD) return CompletableFuture.completedFuture(true)
 
             val serverVersion: Int = Integer.parseInt(
                 MoreRandomThings.INSTANCE

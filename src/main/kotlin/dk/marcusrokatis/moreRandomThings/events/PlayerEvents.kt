@@ -139,7 +139,7 @@ class PlayerEvents : Listener {
             ) {
             val newResult: ItemStack = Util.newMagicMirror()
             newResult.amount = left.amount
-            event.inventory.repairCost = left.amount * 16
+            event.view.repairCost = left.amount * 16
             event.result = newResult
         }
     }

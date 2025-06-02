@@ -133,6 +133,8 @@ class MoreRandomThings : JavaPlugin() {
 
     companion object {
 
+        const val IS_DEVBUILD = true
+
         @JvmStatic
         lateinit var INSTANCE: MoreRandomThings
         @JvmStatic
