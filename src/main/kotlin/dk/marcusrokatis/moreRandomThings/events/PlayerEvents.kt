@@ -163,7 +163,7 @@ class PlayerEvents : Listener {
 
         @JvmStatic
         fun doBonemeal(player: Player) {
-            for (attempt: Int in 1..10) {
+            repeat(10) {
                 var i = 0
                 while (i < 10) {
                     ++i
@@ -177,9 +177,7 @@ class PlayerEvents : Listener {
                     )
                     val block: Block = player.world.getBlockAt(loc)
 
-                    if (block.type != Material.GRASS_BLOCK) {
-                        if (block.applyBoneMeal(BlockFace.UP)) i++
-                    }
+                    if (block.type != Material.GRASS_BLOCK && block.applyBoneMeal(BlockFace.UP)) i++
                 }
             }
         }

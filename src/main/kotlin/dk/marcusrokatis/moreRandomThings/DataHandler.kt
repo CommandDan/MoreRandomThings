@@ -35,7 +35,7 @@ class DataHandler {
     fun saveData() {
         MoreRandomThings.INSTANCE.logger.info("Saving data file...")
         val json: String = gson.toJson(data)
-        if (!dataFile.parentFile.exists()) dataFile.parentFile.mkdir()
+        if (!dataFile.parentFile.exists()) dataFile.parentFile.mkdir().let { if (!it) throw IOException("Failed to create directory") }
         if (!dataFile.exists()) dataFile.createNewFile()
         val fw = FileWriter(dataFile)
         fw.write(json)

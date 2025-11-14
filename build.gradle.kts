@@ -1,10 +1,11 @@
 plugins {
-    kotlin("jvm") version "2.0.20-Beta2"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    kotlin("jvm") version "2.3.0-Beta2"
+    id("com.gradleup.shadow") version "9.2.2"
+    id("xyz.jpenilla.run-paper") version "3.0.2"
 }
 
 group = "dk.marcusrokatis"
-version = "1.1-SNAPSHOT"
+version = "1.2-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -16,11 +17,22 @@ repositories {
     }
 }
 
+val paperApiVersion = "1.21.8-R0.1-SNAPSHOT"
+val configUpdaterVersion = "2.2-SNAPSHOT"
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    compileOnly("io.papermc.paper:paper-api:$paperApiVersion")
 
-    implementation("com.tchristofferson:ConfigUpdater:2.1-SNAPSHOT")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("com.tchristofferson:ConfigUpdater:$configUpdaterVersion")
+}
+
+tasks {
+    runServer {
+        // Configure the Minecraft version for our task.
+        // This is the only required configuration besides applying the plugin.
+        // Your plugin's jar (or shadowJar if present) will be used automatically.
+        minecraftVersion("1.21")
+    }
 }
 
 val targetJavaVersion = 21

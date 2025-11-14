@@ -192,17 +192,17 @@ class GeneralEvents : Listener {
     }
 
     @EventHandler
-    fun onItemPickup(event: ItemDespawnEvent) {
+    fun onItemDespawn(event: ItemDespawnEvent) {
         TO_BE_PLANTED.remove(event.entity.uniqueId)
     }
 
     @EventHandler
-    fun onItemPickup(event: EntityPickupItemEvent) {
+    fun onItemPickupByEntity(event: EntityPickupItemEvent) {
         TO_BE_PLANTED.remove(event.item.uniqueId)
     }
 
     @EventHandler
-    fun onItemPickup(event: InventoryPickupItemEvent) {
+    fun onItemPickupByInventory(event: InventoryPickupItemEvent) {
         TO_BE_PLANTED.remove(event.item.uniqueId)
     }
 

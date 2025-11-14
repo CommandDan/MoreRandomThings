@@ -93,12 +93,10 @@ class MoreRandomThings : JavaPlugin() {
                 GeneralEvents.TO_BE_PLANTED.forEach { (uuid, la) ->
                     val entity: Item? = Bukkit.getEntity(uuid) as Item?
                     if (la.sum() <= 0) {
-                        if (entity != null) {
-                            if (Util.isOnSaplingBlock(entity)) {
-                                Util.placeBlock(entity)
-                                val stack: ItemStack = entity.itemStack
-                                stack.amount -= 1
-                            }
+                        if (entity != null && Util.isOnSaplingBlock(entity)) {
+                            Util.placeBlock(entity)
+                            val stack: ItemStack = entity.itemStack
+                            stack.amount -= 1
                         }
                         GeneralEvents.TO_BE_PLANTED.remove(uuid)
                     } else {

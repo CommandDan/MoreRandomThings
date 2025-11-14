@@ -79,7 +79,7 @@ class DispenserEvents : Listener {
                 if (overflow.isNotEmpty()) {
                     event.block.world.dropItemNaturally(
                         event.block.location.clone().add(facingDirection.direction),
-                        ItemStack(overflow[0]!!.type)
+                        ItemStack(overflow[0]?.type ?: Material.AIR)
                     )
                 }
 
@@ -104,7 +104,7 @@ class DispenserEvents : Listener {
                 if (overflow.isNotEmpty()) { // If the item can't fit into the inventory, drop it in world
                     event.block.world.dropItemNaturally(
                         event.block.location.clone().add(facingDirection.direction),
-                        ItemStack(overflow[0]!!.type)
+                        ItemStack(overflow[0]?.type ?: Material.AIR)
                     )
                 }
             }

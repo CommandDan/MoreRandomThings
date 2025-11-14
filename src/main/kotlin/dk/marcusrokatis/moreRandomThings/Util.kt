@@ -70,7 +70,7 @@ class Util {
         fun applyDamage(item: ItemStack, amount: Int = 1) {
             if (item.itemMeta !is Damageable) return
             val dmg: Damageable = item.itemMeta as Damageable
-            for (i in 1..amount) {
+            repeat(amount) {
                 val chance: Double = 1 / (item.getEnchantmentLevel(Enchantment.UNBREAKING) + 1).toDouble()
                 if (RNG.nextDouble() < chance) dmg.damage += 1
             }
@@ -90,7 +90,7 @@ class Util {
             meta.lore(listOf(
                 Component.text("Throw this to return to your respawn location.", NamedTextColor.GRAY)
             ))
-            meta.persistentDataContainer.set(getKey("magic_mirror"), PersistentDataType.BYTE, 1)
+            meta.persistentDataContainer[getKey("magic_mirror"), PersistentDataType.BYTE] = 1
 
             stack.setItemMeta(meta)
 
@@ -167,14 +167,13 @@ class Util {
                     var url: URL = URI.create("https://api.modrinth.com/v2/project/K9JIhdio").toURL()
                     var reader = InputStreamReader(url.openStream())
                     val versions: JsonArray = JsonParser.parseReader(reader).asJsonObject.getAsJsonArray("versions")
-                    val version: String = versions.get(versions.size() - 1).asString
+                    val version: String = versions[versions.size() - 1].asString
 
                     url = URI.create("https://api.modrinth.com/v2/version/$version").toURL()
                     reader = InputStreamReader(url.openStream())
                     val latestVersion: Int = Integer.parseInt(
                         JsonParser.parseReader(reader)
-                            .asJsonObject
-                            .get("version_number")
+                            .asJsonObject["version_number"]
                             .asString
                             .replace(Regex("\\.|-SNAPSHOT|v"), "")
                     )
