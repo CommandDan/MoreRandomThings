@@ -1,6 +1,6 @@
 **Forked from https://github.com/funnyboy-roks/RandomThings**
 
-Rewritten in Kotlin and updated to 1.21. Now including more features.
+Rewritten in Kotlin and updated to 1.21. ~Now including more features.~
 
 # More Random Things
 
